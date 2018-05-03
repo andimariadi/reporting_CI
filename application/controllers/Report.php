@@ -28,22 +28,38 @@ class Report extends CI_Controller {
 	{
 		$data = array('title' => $page);
 		$this->load->view('templates/head', $data);
-		$this->load->view('report/report', $data);
+		$cookie = array(
+			'dev' => $this->input->cookie('dev'),
+			'bd' => $this->input->cookie('bd'),
+			'rfu' => $this->input->cookie('rfu'),
+			'pic' => $this->input->cookie('pic'),
+			'device' => $this->input->cookie('device'),
+			'loc' => $this->input->cookie('loc'),
+			'swait' => $this->input->cookie('swait'),
+			'ewait' => $this->input->cookie('ewait'),
+			'sact' => $this->input->cookie('sact'),
+			'eact' => $this->input->cookie('eact'),
+			'bd_type' => $this->input->cookie('bd_type'),
+			'problem' => $this->input->cookie('problem'),
+			'analysis' => $this->input->cookie('analysis'),
+			'case' => $this->input->cookie('case'),
+			'activity' => $this->input->cookie('activity'),
+			'category' => $this->input->cookie('category'),
+			'sn_mojo' => $this->input->cookie('sn_mojo'),
+			'sn_wb' => $this->input->cookie('sn_wb'),
+			'sn_gps' => $this->input->cookie('sn_gps'),
+			'antenna' => $this->input->cookie('antenna'),
+			'relay' => $this->input->cookie('relay'),
+			'locked' => $this->input->cookie('locked'),
+			'remark' => $this->input->cookie('remark'),
+			'status' => $this->input->cookie('status'),
+		);
+		$this->load->view('report/report', $cookie);
 	}
 
-	public function action($name = 'dev', $value = '1')
+	public function cookies($name, $value)
 	{
 		$hour = time() + (86400 * 30);
-		$value = $this->input->post($value);
-		$cookie = array(
-          'name'   => $name,
-          'value'  => $value,
-          'expire' => $hour,
-          'domain' => 'localhost',
-          'path'   => 'index.php/report',
-          'prefix' => 'report_',
-          );
-    	$this->input->set_cookie($cookie);
-    	redirect(base_url('index.php/report/'));
+		
 	}
 }

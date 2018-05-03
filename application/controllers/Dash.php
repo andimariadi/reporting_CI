@@ -20,7 +20,7 @@ class Dash extends CI_Controller {
 	 */
 	function __construct() {
 		parent::__construct();	
-		$this->load->model('crud');
+		$this->load->model('Crud');
 		$username = $this->session->userdata('username');
 		$level = $this->session->userdata('level');
 		if(empty($username)){

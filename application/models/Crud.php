@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
 * 
 */
-class crud extends CI_Model
+class Crud extends CI_Model
 {
 	
 	public function insert($table, $data)
@@ -35,7 +35,7 @@ class crud extends CI_Model
 		$this->db->order_by($order_by['order'], $order_by['by']);
 		return $data = $this->db->get();
 	}
-	public function edit($table, $where, $data)
+	public function update($table, $where, $data)
 	{
 		$this->db->where($where);
 		$this->db->update($table, $data);
