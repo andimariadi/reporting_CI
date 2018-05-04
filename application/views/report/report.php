@@ -1,7 +1,4 @@
 <?php
-
-$hour = time() + (86400 * 30);
-$submit = $this->input->post('submit');
 echo '<body>
       <div class="container-scroller">
         <div class="container-fluid">
@@ -22,7 +19,7 @@ if ($dev == '') {
           'expire' => $hour
           );
     $this->input->set_cookie($cookie);
-    redirect(base_url('index.php/report'));
+    redirect(base_url('report'));
   }
   ?>
   <?php
@@ -65,7 +62,7 @@ if ($dev == '') {
           'expire' => $hour
           );
     $this->input->set_cookie($cookie);
-    redirect(base_url('index.php/report'));
+    redirect(base_url('report'));
   }
   ?>
   <form method="post">
@@ -98,7 +95,7 @@ if ($dev == '') {
     } else {
       $this->session->set_flashdata('msg', 'Error! Unit not in database');
     }
-    redirect(base_url('index.php/report'));
+    redirect(base_url('report'));
   }
 
   ?>
@@ -130,7 +127,7 @@ if ($dev == '') {
           'expire' => $hour
           );
     $this->input->set_cookie($cookie);
-    redirect(base_url('index.php/report'));
+    redirect(base_url('report'));
   } else {
     if (isset($submit)) {
       $value = $this->input->post('location');
@@ -140,7 +137,7 @@ if ($dev == '') {
           'expire' => $hour
           );
       $this->input->set_cookie($cookie);
-      redirect(base_url('index.php/report'));
+      redirect(base_url('report'));
     }
     ?>
     <form method="post">
@@ -167,7 +164,7 @@ if ($dev == '') {
           'expire' => $hour
           );
     $this->input->set_cookie($cookie);
-    redirect(base_url('index.php/report'));
+    redirect(base_url('report'));
   } else {
     if (isset($submit)) {
       $value = $this->input->post('swait');
@@ -184,7 +181,7 @@ if ($dev == '') {
           'expire' => $hour
           );
       $this->input->set_cookie($cookie);
-      redirect(base_url('index.php/report'));
+      redirect(base_url('report'));
     }
 
 ?>
@@ -219,7 +216,7 @@ if ($dev == '') {
           'expire' => $hour
           );
     $this->input->set_cookie($cookie);
-    redirect(base_url('index.php/report'));
+    redirect(base_url('report'));
   }
 ?>
   <form method="post">
@@ -280,7 +277,7 @@ if ($dev == '') {
           'expire' => $hour
           );
       $this->input->set_cookie($cookie);
-      redirect(base_url('index.php/report'));
+      redirect(base_url('report'));
     } 
 ?>
   <form method="post">
@@ -423,7 +420,7 @@ if ($dev == '') {
           'expire' => $hour
           );
     $this->input->set_cookie($cookie);
-    redirect(base_url('index.php/report'));
+    redirect(base_url('report'));
   }
   $show = $this->crud->search('unit_detail', array('cn_unit' => $device));
   $show = $show->result_array();
@@ -519,25 +516,22 @@ if ($dev == '') {
     </div>
   </form>
 
-<?php }  elseif ($remark != '' AND $status != '') {
-  $push = $this->input->post('push');
-  echo $push;
-  if ((date('H:i:s') >= '07:00:00') AND (date('H:i:s') <= '17:00:00')) {
-    $shift = 1;
-    $tproblem = '07:00:00';
-    $dating = date('Y-m-d');
-  } else {
-    $shift = 2;
-    $tproblem = '17:00:00';
-    if ((date('H:i:s') >= '00:00:00') AND (date('H:i:s') <= '07:00:00')) {
-      $dating = date('Y-m-d', strtotime('-1 Day'));
-    } else {
-      $dating = date('Y-m-d');
-    }
-  }
-  
-
-  if (isset($push)) {
+<?php }  elseif ($remark != '' AND $status != '' AND $push == '') {
+?>
+  <form method="post">
+    <input type="hidden" name="push" value="restart">
+    <div class="text-center">
+      <button type="submit" name="submit" class="btn btn-primary btn-block enter-btn">Restart</button>
+    </div>
+  </form>
+  <br />
+  <form method="post">
+    <input type="hidden" name="push" value="finish">
+    <div class="text-center">
+      <button type="submit" name="submit" class="btn btn-danger btn-block enter-btn">Finish</button>
+    </div>
+  </form>
+<?php } elseif (isset($push)) {
     if ($dev == 1) {
       $this->crud->insert('reportingjob', array(
         'id_device' => $dev,
@@ -606,7 +600,7 @@ if ($dev == '') {
     }
 
     if ($push == 'finish') {
-      redirect(base_url('index.php/Auth/logout'));
+      redirect(base_url('Auth/logout'));
     } else {
       delete_cookie("device");
       delete_cookie("loc");
@@ -628,27 +622,12 @@ if ($dev == '') {
         delete_cookie("sn_gps");
         delete_cookie("antenna");
       }
-      redirect(base_url('index.php/report'));
+      redirect(base_url('report'));
     }
-  }
-?>
-  <form method="post">
-    <input type="hidden" name="push" value="restart">
-    <div class="text-center">
-      <button type="submit" name="submit" class="btn btn-primary btn-block enter-btn">Restart</button>
-    </div>
-  </form>
-  <br />
-  <form method="post">
-    <input type="hidden" name="push" value="finish">
-    <div class="text-center">
-      <button type="submit" name="submit" class="btn btn-danger btn-block enter-btn">Finish</button>
-    </div>
-  </form>
-          <?php }
+}
 
 echo '</div>
-        <p class="existing-user text-center pt-4 mb-0"><a href="' . base_url('index.php/Auth/logout') .'" style="color: #888">Log Out</a></p><br />
+        <p class="existing-user text-center pt-4 mb-0"><a href="' . base_url('Auth/logout') .'" style="color: #888">Log Out</a></p><br />
       </div>
     </div>
   </div>

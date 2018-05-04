@@ -11,7 +11,7 @@
 	        	}
 	        ?>
 	          <h3 class="card-title text-left mb-3">Login</h3>
-	          <form method="post" action="<?php echo base_url('index.php/Auth/action');?>">
+	          <form method="post" action="<?php echo base_url('Auth/action');?>">
 	            <div class="form-group">
 	              <input type="text" class="form-control p_input" placeholder="Username" name="user" />
 	            </div>

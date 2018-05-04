@@ -41,10 +41,10 @@ class Auth extends CI_Controller {
 			$data = $search->row_array();
 			$session_data = array('username' => $data['username'], 'level' => $data['type']);
 			$this->session->set_userdata($session_data);
-			redirect(base_url('index.php/dash'));
+			redirect(base_url('dash'));
 		} else {
 			$this->session->set_flashdata('msg', 'Username or password wrong!');
-			redirect(base_url('index.php/Auth'));
+			redirect(base_url('Auth'));
 		}
 		
 	}

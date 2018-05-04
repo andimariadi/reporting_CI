@@ -15,7 +15,22 @@ class Crud extends CI_Model
 	{
 		return $this->db->get_where($table, $data);
 	}
-	public function search_select($table, $select, $where, $order_by)
+	public function search_select($table, $select, $where)
+	{
+		$this->db->select($select);
+		$this->db->from($table);
+		$this->db->where($where);
+		return $this->db->get();
+	}
+	public function search_select_group($table, $select, $where, $group_by)
+	{
+		$this->db->select($select);
+		$this->db->from($table);
+		$this->db->where($where);
+		$this->db->group_by($group_by);
+		return $this->db->get();
+	}
+	public function search_select_order($table, $select, $where, $order_by)
 	{
 		$this->db->select($select);
 		$this->db->from($table);
@@ -28,7 +43,13 @@ class Crud extends CI_Model
 		$data = $this->db->get($table);
 		return $data->result_array();
 	}
-	public function view_select($table, $order_by)
+	public function view_select($table, $select)
+	{
+		$this->db->select($select);
+		$this->db->from($table);
+		return $this->db->get();
+	}
+	public function view_order($table, $order_by)
 	{
 		$this->db->select('*');
 		$this->db->from($table);
