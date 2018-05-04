@@ -208,7 +208,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-    <form method="post" enctype="multipart/form-data" action="<?php echo base_url('Dash/importunit');?>">
+    <form method="post" enctype="multipart/form-data" action="<?php echo base_url('Dash/importunit/network');?>">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Import Data With Excel</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -282,14 +282,13 @@
 		$("#device").addClass('show');
 		$(document).on('click', '#savedevice', function() {
 			var data = $("#adddevice").serialize();
-			//alert(data);
 			if(data.indexOf('=&') > -1 || data.substr(data.length - 1) == '='){
 			  swal("Error!", "You field can't be empty!", "warning");
 			} else {
 				$.ajax({
 					type: "POST",
 					data: data,
-					url: "<?php echo base_url('Dash/save_jigsaw');?>",
+					url: "<?php echo base_url('dash/save_unit/2');?>",
 					success: function(response) {
 						swal({
 							title: "Good job!",

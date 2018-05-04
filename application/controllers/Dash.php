@@ -21,8 +21,8 @@ class Dash extends CI_Controller {
 	function __construct() {
 		parent::__construct();	
 		$this->load->model('Crud');
-		$username = $this->session->userdata('username');
-		$level = $this->session->userdata('level');
+		$username 	= $this->session->userdata('username');
+		$level 		= $this->session->userdata('level');
 		if(empty($username)){
 			redirect(base_url("Auth"));
 		}
@@ -30,8 +30,6 @@ class Dash extends CI_Controller {
 			redirect(base_url("report"));
 		}
 
-		$username 	= $this->session->userdata('username');
-		$level 		= $this->session->userdata('level');
 		$page 		= 'Dashboard';
 		$this->load->view('templates/head', array('title' => $page));
 
@@ -223,6 +221,30 @@ class Dash extends CI_Controller {
 		$this->load->view('pages/problem', $data);
 	}
 
+	public function enum() {
+		$device = $this->Crud->view('device_report');
+		$data = array(
+			'device' => $device,
+
+		);
+		$this->load->view('pages/enum', $data);
+	}
+
+	public function save_enum()
+	{
+		$submit = $this->input->post('submit');
+		$type = $this->input->post('type');
+		$iddevice = $this->input->post('iddevice');
+		$value = $this->input->post('namesave');
+		$this->Crud->insert('enum', array(
+				'name' => $value,
+				'type' => $type,
+				'IdDevice' => $iddevice
+		));
+		$this->session->set_flashdata('msg', 'Field saved!');
+		redirect(base_url('dash/enum'));
+	}
+
 	public function jigsaw_units() {
 		$unit = $this->Crud->search('enum', array(
 			'type' => 'unit',
@@ -259,31 +281,47 @@ class Dash extends CI_Controller {
 		$this->load->view('pages/units_network', $data);
 	}
 
-	public function save_jigsaw() {
+	public function save_unit($device = '1') {
 		$cn_unit 		= $this->input->post('cn_unit');
 		$id_unit 		= $this->input->post('id_unit');
 		$type_unit 		= $this->input->post('type_unit');
 		$kode_unit		= $this->input->post('kode_unit');
 		$description 	= $this->input->post('description');
+		$position		= $this->input->post('position');
 		$sn_mojo 		= $this->input->post('sn_mojo');
 		$sn_wb 			= $this->input->post('sn_wb');
 		$sn_gps 		= $this->input->post('sn_gps');
 		$remark 		= $this->input->post('remark');
 		$status 		= $this->input->post('status');
 
-		$this->Crud->insert('unit_detail', array(
-			'cn_unit'		=> $cn_unit,
-			'id_unit'		=> $id_unit,
-			'type_unit'		=> $type_unit,
-			'kode_unit'		=> $kode_unit,
-			'description'	=> $description,
-			'sn_mojo'		=> $sn_mojo,
-			'sn_wb'			=> $sn_wb,
-			'sn_gps'		=> $sn_gps,
-			'remark'		=> $remark,
-			'status'		=> $status,
-			'id_device'		=> '1'
-		));
+		if ($device == 1) {
+			$this->Crud->insert('unit_detail', array(
+				'cn_unit'		=> $cn_unit,
+				'id_unit'		=> $id_unit,
+				'type_unit'		=> $type_unit,
+				'kode_unit'		=> $kode_unit,
+				'description'	=> $description,
+				'position'		=> $position,
+				'sn_mojo'		=> $sn_mojo,
+				'sn_wb'			=> $sn_wb,
+				'sn_gps'		=> $sn_gps,
+				'remark'		=> $remark,
+				'status'		=> $status,
+				'id_device'		=> $device
+			));
+		} else {
+			$this->Crud->insert('unit_detail', array(
+				'cn_unit'		=> $cn_unit,
+				'id_unit'		=> $id_unit,
+				'type_unit'		=> $type_unit,
+				'kode_unit'		=> $kode_unit,
+				'description'	=> $description,
+				'position'		=> $position,
+				'remark'		=> $remark,
+				'status'		=> $status,
+				'id_device'		=> $device
+			));
+		}
 	}
 
 	public function importunit($unit = 'jigsaw') {
@@ -352,6 +390,47 @@ class Dash extends CI_Controller {
 				unlink($uploader['full_path']);
 			}
 		redirect(base_url('dash/' . $unit . '_units'));
+	}
+
+
+	public function password() {
+		$this->load->view('users/password');
+	}
+
+	public function change_password()
+	{
+		$username 	= $this->session->userdata('username');
+		$opass 		= sha1($this->input->post('opass'));
+		$newpass 	= sha1($this->input->post('newpass'));
+		$vpass 		= sha1($this->input->post('vpass'));
+		$search 	= array('username' => $username);
+		$validation = $this->Crud->search_select('user_report', array('username', 'password'), $search)->result_array();
+		if ($newpass == $vpass) {
+			if ($validation[0]['password'] == $opass) {
+				$this->Crud->update('user_report', $search, array('password' => $newpass));
+				$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+		          <strong>Saved!</strong> You password is changed.
+		            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		              <span aria-hidden="true">&times;</span>
+		            </button>
+		          </div>');
+			} else {
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		          <strong>Failed!</strong> Password not valid.
+		            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		              <span aria-hidden="true">&times;</span>
+		            </button>
+		          </div>');
+			}
+		} else {
+			$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		          <strong>Failed!</strong> Password not valid.
+		            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		              <span aria-hidden="true">&times;</span>
+		            </button>
+		          </div>');
+		}
+		redirect(base_url('dash/password'));
 	}
 		
 }

@@ -412,8 +412,9 @@
 				$.ajax({
 					type: "POST",
 					data: data,
-					url: "<?php echo base_url('Dash/save_jigsaw');?>",
+					url: "<?php echo base_url('dash/save_unit');?>",
 					success: function(response) {
+						alert(response);
 						swal({
 							title: "Good job!",
 							text: "You field is saved!",
