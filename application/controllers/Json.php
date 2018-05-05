@@ -66,5 +66,36 @@ class Json extends CI_Controller {
 		$this->Crud->delete('unit_detail', array('cn_unit' => $id));
 		$this->session->set_flashdata('msg', 'Field has been delete!');
 	}
+
+	public function report($id='', $y='')
+	{
+		$year 	= empty($y) ? date('Y') : $y;
+		$id 	= empty($id) ? '1' : $id;
+		if ($y != '' AND $id != '') {
+			$query 	= $this->Crud->query("SELECT MONTH(`date`) as `month`, `date` FROM `reportingjob` WHERE year(`date`)='{$year}' AND `id_device`='{$id}' GROUP BY month(`date`) ORDER BY month(`date`) ASC");
+		} elseif ($id != '') {
+			$query 	= $this->Crud->query("SELECT YEAR(`date`) as `year` FROM `reportingjob` WHERE `id_device`='{$id}' GROUP BY year(`date`) ORDER BY year(`date`) ASC");
+		} else {
+			$query 	= $this->Crud->query("SELECT YEAR(`date`) as `year` FROM `reportingjob` GROUP BY year(`date`) ORDER BY year(`date`) ASC");
+		}
+
+		if(count($query) > 0 ){
+		  $response = array();
+		  $response["data"] = array();
+		  foreach ($query as $x) {
+		  	if ($y != '') {
+		  		$h['month'] = $x["month"];
+		  		$h['tmonth'] = date('F', strtotime($x["date"]));
+		  	} else {
+		  		$h['year'] = $x["year"];
+		  	}
+		    
+		    array_push($response["data"], $h);
+		  }
+		}else {
+		  $response["data"]="empty";  
+		}
+		echo json_encode($response);
+	}
 	
 }

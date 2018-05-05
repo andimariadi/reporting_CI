@@ -432,5 +432,54 @@ class Dash extends CI_Controller {
 		}
 		redirect(base_url('dash/password'));
 	}
+
+	public function report($dev = '', $y = '', $m = '') {
+		$level 	= $this->session->userdata('level');
+		$dev 	= empty($dev) ? 'jigsaw' : $dev;
+		$device = $this->Crud->search('device_report', array('name_device' => $dev))->result_array();
+		$devid = $device[0]['id'];
+		$data = array(
+			'devid' => $devid,
+			'y' 	=> $y,
+			'm' 	=> $m,
+			'level' => $level,
+			'dev'	=> $dev
+		);
+		$this->load->view('pages/report', $data);
+	}
+
+	public function summary($dev = '', $y = '', $m = '', $dt = '') {
+		$this->load->helper('Penghitungan_helper');
+		$level 	= $this->session->userdata('level');
+		$dev 	= empty($dev) ? 'jigsaw' : $dev;
+		$p 		= empty($p) ? 1 : $p;
+		$device = $this->Crud->search('device_report', array('name_device' => $dev))->result_array();
+		$devid = $device[0]['id'];
+		$data = array(
+			'devid' => $devid,
+			'y' 	=> $y,
+			'm' 	=> $m,
+			'level' => $level,
+			'dev'	=> urldecode($dt),
+			'p' 	=> $p
+		);
+		$this->load->view('report/summary', $data);
+	}
+
+	public function users() {
+		$dev 	= empty($dev) ? 'jigsaw' : $dev;
+		$p 		= empty($p) ? 1 : $p;
+		$device = $this->Crud->search('device_report', array('name_device' => $dev))->result_array();
+		$devid = $device[0]['id'];
+		$data = array(
+			'devid' => $devid,
+			'y' 	=> $y,
+			'm' 	=> $m,
+			'level' => $level,
+			'dev'	=> urldecode($dt),
+			'p' 	=> $p
+		);
+		$this->load->view('report/summary', $data);
+	}
 		
 }

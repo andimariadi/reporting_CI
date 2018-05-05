@@ -120,12 +120,12 @@
               <div class="collapse" id="monitoring">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('dash/report&jigsaw');?>">
+                    <a class="nav-link" href="<?php echo base_url('dash/report/jigsaw');?>">
                       Report Jigsaw
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('dash/report&network');?>">
+                    <a class="nav-link" href="<?php echo base_url('dash/report/network');?>">
                       Report Network
                     </a>
                   </li>
