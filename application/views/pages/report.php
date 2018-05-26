@@ -49,7 +49,7 @@
 		var vPool="";
 		$.getJSON('<?php echo base_url('json/report/' . $devid);?>/' + year, function(jd) {
 			$.each(jd.data, function(i, val){		
-				vPool += '<li id="y-' + this['month'] + '"><a href="<?php echo base_url("dash/detail/{$dev}/");?>' + year + '/' + this['month'] + '">' + this['month'] + ' - ' + this['tmonth'] + '</a></li>';
+				vPool += '<li id="y-' + this['month'] + '"><a href="<?php echo base_url("dash/report/{$dev}/");?>' + year + '/' + this['month'] + '">' + this['month'] + ' - ' + this['tmonth'] + '</a></li>';
 			});
 			$('#month-' + year).html(vPool);
 		});
@@ -57,7 +57,7 @@
 
 	function pageloc(idinput) {
 		var id = $("#" + idinput).val();
-		window.location.assign('?detail_report&' + id + '&<?php echo "{$y}&{$m}";?>');
+		window.location.assign('<?php echo base_url("/dash/summary/{$dev}/{$y}/{$m}/");?>' + id);
 	}
 	
 	function showEdit(editableObj) {
@@ -78,7 +78,7 @@
 	      	$.ajax({
 	        	type: "POST",
 	        	data:'column='+column+'&value='+editableObj.innerText+'&id='+id,
-	        	url: "<?php echo base_url('api/ureport.php');?>",
+	        	url: "<?php echo base_url('json/ureport');?>",
 	        	success: function(response) {
 	        		$(editableObj).removeAttr('style');
 	        		$(editableObj).attr('data-old_value',editableObj.innerText);
@@ -95,7 +95,7 @@
     	$.ajax({
 	        	type: "POST",
 	        	data:'column='+column+'&value='+data+'&id='+id,
-	        	url: "<?php echo base_url('api/ureport.php');?>",
+	        	url: "<?php echo base_url('json/ureport');?>",
 	        	success: function(response) {
 	        		$(editableObj).removeAttr('style');
 	        		$(editableObj).attr('data-old_value', editableObj.innerText);
@@ -108,13 +108,12 @@
 
     }
     $(document).on('click', '#delete', function() {
-    	
     	var ai = $(this).attr('data-id');
     	//alert(ai);
       	$.ajax({
       		type: "POST",
       		data:'del=' + ai,
-      		url: "<?php echo base_url('api/delrep.php');?>",
+      		url: "<?php echo base_url('json/delrep');?>",
       		success: function(response) {
       			location.reload();
       		},
@@ -123,4 +122,12 @@
       		}
       	})
     });
+    $("#search_dump").keypress(function(e) {
+            if(e.which == 13) {
+                var id = $(this).val()
+                if (id != '') {
+                    window.location.assign('<?php echo base_url("/dash/summary/{$dev}/{$y}/{$m}/");?>' + id);
+                }
+            }
+        });
 </script>

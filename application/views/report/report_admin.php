@@ -1,5 +1,5 @@
 <div class="card-body">
-	<a href="<?php echo 'export.php?' . $dev . '&' . $y . '&' . $m;?>" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
+	<a href="<?php echo base_url('exports/report/' . $dev . '/' . $y . '/' . $m);;?>" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
 </div>
 <?php
 	$year = empty($y) ? null : $y;
@@ -24,8 +24,8 @@
 				<?php
 				$paging_info = get_paging_info($page_total,1,$p); ?>
 					<?php if($paging_info['curr_page'] > 1) : ?>
-						<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/1");?>' title='Page 1' class="page-link">First</a></li>
-						<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . ($paging_info['curr_page'] - 1));?>' title='Page <?php echo ($paging_info['curr_page'] - 1); ?>' class="page-link">Prev</a></li>
+						<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/1");?>' title='Page 1' class="page-link">First</a></li>
+						<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . ($paging_info['curr_page'] - 1));?>' title='Page <?php echo ($paging_info['curr_page'] - 1); ?>' class="page-link">Prev</a></li>
 				<?php
                     endif; 
                     $max = 7;
@@ -38,7 +38,7 @@
                 ?>
 
                 <?php if($paging_info['curr_page'] >= $max) : ?>
-                	<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/1");?>' title='Page 1' class="page-link">1</a></li>
+                	<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/1");?>' title='Page 1' class="page-link">1</a></li>
                 	<li class="page-item">..</li>
                 <?php endif; ?>
                 <?php for($i = $sp; $i <= ($sp + $max -1);$i++) : ?>
@@ -50,17 +50,17 @@
                 	<?php if($paging_info['curr_page'] == $i) : ?>
                 		<li class="page-item disabled"><a href="#" class="page-link"><?php echo $i; ?></a></li>
                 	<?php else : ?>
-                		<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . $i);?>' title='Page <?php echo $i; ?>' class="page-link"><?php echo $i; ?></a></li>
+                		<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . $i);?>' title='Page <?php echo $i; ?>' class="page-link"><?php echo $i; ?></a></li>
                 	<?php endif; ?>
                 <?php endfor; ?>
 
                 <?php if($paging_info['curr_page'] < ($paging_info['pages'] - floor($max / 2))) : ?>
                 	<li class="page-item">..</li>
-                	<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . $paging_info['pages']);?>' title='Page <?php echo $paging_info['pages']; ?>' class="page-link"><?php echo $paging_info['pages']; ?></a></li>
+                	<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . $paging_info['pages']);?>' title='Page <?php echo $paging_info['pages']; ?>' class="page-link"><?php echo $paging_info['pages']; ?></a></li>
                 <?php endif; ?>
                 <?php if($paging_info['curr_page'] < $paging_info['pages']) : ?>
-                	<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . ($paging_info['curr_page'] + 1));?>' title='Page <?php echo ($paging_info['curr_page'] + 1); ?>' class="page-link">Next</a></li>
-                	<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . $paging_info['pages']);?>' title='Page <?php echo $paging_info['pages']; ?>' class="page-link">Last</a></li>
+                	<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . ($paging_info['curr_page'] + 1));?>' title='Page <?php echo ($paging_info['curr_page'] + 1); ?>' class="page-link">Next</a></li>
+                	<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . $paging_info['pages']);?>' title='Page <?php echo $paging_info['pages']; ?>' class="page-link">Last</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
@@ -275,8 +275,8 @@ foreach ($sql as $key) {
 	<nav aria-label="...">
 		<ul class="pagination pagination-lg">
 			<?php if($paging_info['curr_page'] > 1) : ?>
-				<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/1");?>' title='Page 1' class="page-link">First</a></li>
-				<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . ($paging_info['curr_page'] - 1));?>' title='Page <?php echo ($paging_info['curr_page'] - 1); ?>' class="page-link">Prev</a></li>
+				<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/1");?>' title='Page 1' class="page-link">First</a></li>
+				<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . ($paging_info['curr_page'] - 1));?>' title='Page <?php echo ($paging_info['curr_page'] - 1); ?>' class="page-link">Prev</a></li>
 			<?php endif; 
 			$max = 7;
 			if($paging_info['curr_page'] < $max)
@@ -287,7 +287,7 @@ foreach ($sql as $key) {
 				$sp = $paging_info['curr_page']  - floor($max/2);
 			?>
 			<?php if($paging_info['curr_page'] >= $max) : ?>
-				<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/1");?>' title='Page 1' class="page-link">1</a></li>
+				<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/1");?>' title='Page 1' class="page-link">1</a></li>
 				<li class="page-item">..</li>
 			<?php endif; ?>
 			<?php for($i = $sp; $i <= ($sp + $max -1);$i++) : ?>
@@ -298,16 +298,16 @@ foreach ($sql as $key) {
 				<?php if($paging_info['curr_page'] == $i) : ?>
 					<li class="page-item disabled"><a href="#" class="page-link"><?php echo $i; ?></a></li>
 				<?php else : ?>
-					<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . $i);?>' title='Page <?php echo $i; ?>' class="page-link"><?php echo $i; ?></a></li>
+					<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . $i);?>' title='Page <?php echo $i; ?>' class="page-link"><?php echo $i; ?></a></li>
 				<?php endif; ?>
 			<?php endfor; ?>
 			<?php if($paging_info['curr_page'] < ($paging_info['pages'] - floor($max / 2))) : ?>
 				<li class="page-item">..</li>
-				<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . $paging_info['pages']);?>' title='Page <?php echo $paging_info['pages']; ?>' class="page-link"><?php echo $paging_info['pages']; ?></a></li>
+				<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . $paging_info['pages']);?>' title='Page <?php echo $paging_info['pages']; ?>' class="page-link"><?php echo $paging_info['pages']; ?></a></li>
 			<?php endif; ?>
 			<?php if($paging_info['curr_page'] < $paging_info['pages']) : ?>
-				<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . ($paging_info['curr_page'] + 1));?>' title='Page <?php echo ($paging_info['curr_page'] + 1); ?>' class="page-link">Next</a></li>
-				<li class="page-item"><a href='<?php echo base_url("dash/detail/{$dev}/{$y}/{$m}/" . $paging_info['pages']);?>' title='Page <?php echo $paging_info['pages']; ?>' class="page-link">Last</a></li>
+				<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . ($paging_info['curr_page'] + 1));?>' title='Page <?php echo ($paging_info['curr_page'] + 1); ?>' class="page-link">Next</a></li>
+				<li class="page-item"><a href='<?php echo base_url("dash/report/{$dev}/{$y}/{$m}/" . $paging_info['pages']);?>' title='Page <?php echo $paging_info['pages']; ?>' class="page-link">Last</a></li>
 			<?php endif; ?>
 		</ul>
 	</nav>

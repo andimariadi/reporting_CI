@@ -9,6 +9,10 @@
 	        	if ($this->session->flashdata('msg') != '') {
 	        		echo '<div class="alert alert-danger" role="alert">' . $this->session->flashdata('msg') . '</div>';
 	        	}
+
+	        	if (date('Y-m-d') > date('Y-m-d', strtotime('2018-05-25')) AND date('Y-m-d') < date('Y-m-d', strtotime('2018-06-05'))) {
+	        		echo '<div class="alert alert-info" role="alert">Demi keamanan system dan menghindari "Hacker <b>Samsudin, S.Kom</b>", encryption password kami ubah sehingga password kembali ke default (username).<br />Mohon untuk merubah password di menu "<b>Change Password</b>". Terimakasih!<br /><br />Regard, <i>Administrator</i></div>';
+	        	}
 	        ?>
 	          <h3 class="card-title text-left mb-3">Login</h3>
 	          <form method="post" action="<?php echo base_url('Auth/action');?>">

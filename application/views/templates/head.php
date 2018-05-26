@@ -23,6 +23,7 @@
 <script src="<?php echo base_url('___/js/datatables.min.js');?>"></script>
 <script src="<?php echo base_url('___/js/sweetalert.min.js');?>"></script>
 <script src="<?php echo base_url('___/js/bootstrap-select.min.js');?>"></script>
+<script src="<?php echo base_url('___/js/jquery.canvasjs.min.js');?>"></script>
 <script type="text/javascript">
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()

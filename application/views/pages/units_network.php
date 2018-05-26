@@ -36,7 +36,7 @@
 								                              <th>Type</th>
 								                              <th>Description</th>
 								                              <th>Position</th>
-								                              <th>Remark</th>
+								                              <th>Remark/Backlog</th>
 								                              <th>Status</th>
 								                              <th>Date Updated</th>
 								                              <th>PIC Updated</th>
@@ -50,7 +50,7 @@
 								                              <th>Type</th>
 								                              <th>Description</th>
 								                              <th>Position</th>
-								                              <th>Remark</th>
+								                              <th>Remark/Backlog</th>
 								                              <th>Status</th>
 								                              <th>Date Updated</th>
 								                              <th>PIC Updated</th>

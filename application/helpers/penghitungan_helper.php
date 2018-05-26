@@ -24,7 +24,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	function selisih($start, $end) {
 		$awal  = new DateTime($start);
 		$akhir  = new DateTime($end);
-		$selisih = $akhir->diff($awal);
+		if ($awal > $akhir) {
+			$akhir->modify('+1 day');
+			$selisih = $akhir->diff($awal);
+		} else {
+			$selisih = $akhir->diff($awal);
+		}
+		
 		$jam = $selisih->format('%h');
 		$menit = $selisih->format('%i');
 		$detik = $selisih->format('%s');

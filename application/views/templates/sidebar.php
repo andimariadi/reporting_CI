@@ -34,12 +34,12 @@
           </div>
           <ul class="nav">
             <li class="nav-item active">
-              <a class="nav-link" href="<?php echo base_url('dash/home');?>">
+              <a class="nav-link" href="<?php echo base_url('dash');?>">
                 <img src="<?php echo base_url('___/images/icons/1.png');?>" alt="" />
                 <span class="menu-title">Dashboard</span>
               </a>
             </li>
-            <?php if ($level == 'supervisor') { ?>
+            <?php if ($level == 'Supervisor') { ?>
             <li class="nav-item">
               <a class="nav-link" href="<?php echo base_url('dash/users');?>">
                 <img src="<?php echo base_url('___/images/icons/007-star.png');?>" alt="" />
@@ -47,7 +47,7 @@
               </a>
             </li>
             <?php }
-            if ($level == 'administrator') { ?>
+            if ($level == 'Administrator' || $level == 'Supervisor') { ?>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#problem" aria-expanded="false" aria-controls="sample-pages">
                 <img src="<?php echo base_url('___/images/icons/005-forms.png');?>" alt="" />
@@ -104,7 +104,7 @@
                 </ul>
               </div>
             </li>
-            <?php if ($level == 'administrator') { ?>
+            <?php if ($level == 'Administrator' || $level == 'Supervisor') { ?>
             <li class="nav-item">
               <a class="nav-link" href="<?php echo base_url('dash/enum');?>">
                 <img src="<?php echo base_url('___/images/icons/008-list.png');?>" alt="" />
@@ -129,6 +129,16 @@
                       Report Network
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('dash/recondition');?>">
+                      Data Recondition Jigsaw
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('dash/bandwith');?>">
+                      Data Bandwith Network
+                    </a>
+                  </li>
                 </ul>
               </div>
             </li>
@@ -140,12 +150,12 @@
               <div class="collapse" id="grafich">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('dash/graph&jigsaw');?>">
+                    <a class="nav-link" href="<?php echo base_url('dash/graph/jigsaw');?>">
                       Graph Jigsaw
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('dash/graph&network');?>">
+                    <a class="nav-link" href="<?php echo base_url('dash/graph/network');?>">
                       Report Network
                     </a>
                   </li>

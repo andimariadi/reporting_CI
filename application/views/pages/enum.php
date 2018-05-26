@@ -207,6 +207,53 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Recondition</h5>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="mb-4">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name Enums</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php
+                            $no = 0;
+                            $sqla = $this->Crud->search('enum', array('type' => 'rekondisi', 'IdDevice' => $value['id']))->result_array();
+                            foreach ($sqla as $data) {
+                              $no++;
+                              ?>
+                              <tr id="showing">
+                                <th scope="row"><?php echo $no;?></th>
+                                <td contenteditable="true" onBlur="saveToDatabase(this,'name','<?php echo $data['IdEnum']; ?>')" data-old_value="<?php echo $data['name'];?>" onClick="showEdit(this)">
+                                  <?php echo $data['name'];?>
+                                </td>
+                                <td><span id="delete" data-id="<?php echo $data['IdEnum']; ?>" data-toggle="tooltip" data-placement="top" title="Delete" style="cursor: pointer"><i class="fa fa-trash-o fa-lg"></i></span></td>
+                              </tr>
+                            <?php } ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <p class="text-muted mb-0">
+                      <form class="form-inline" method="post" action="<?php echo base_url('dash/save_enum');?>">
+                        <div class="form-group mx-sm-8 mb-2">
+                          <input type="hidden" value="<?php echo $value['id'];?>" name="iddevice">
+                          <input type="hidden" value="rekondisi" name="type">
+                          <input type="text" class="form-control p-input" name="namesave" placeholder="Enter Add Data">
+                        </div>
+                        <button type="submit" class="btn btn-link mb-2" name="save"><i class="fa fa-plus-circle fa-lg"></i>  Add Data</button>
+                      </form>
+                      </p>
+                    </div>
+                  </div>
+                </div>
                 <?php } ?>
 
 

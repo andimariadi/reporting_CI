@@ -21,6 +21,12 @@ class Auth extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('crud');
+		echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" style="position: fixed;bottom: 20%;left: 15%; width: 75%;z-index: 99999;">
+          <strong>Info!</strong> This site is BETA TESTER.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>';
 	}
 
 	public function index ($page = 'Login') {
@@ -33,12 +39,10 @@ class Auth extends CI_Controller {
 	{
 		$username = $this->input->post('user');
 		$password = $this->input->post('pass');
-		$where = array('username' => $username, 'password' => sha1($password));
+		$where = array('username' => $username);
 
-		$search = $this->crud->search('user_report', $where);
-		$cek = $search->num_rows();
-		if ($cek > 0) {
-			$data = $search->row_array();
+		$data = $this->crud->search('user_report', $where)->row_array();
+		if (password_verify($password, $data['password'])) {
 			$session_data = array('username' => $data['username'], 'level' => $data['type']);
 			$this->session->set_userdata($session_data);
 			redirect(base_url('dash'));

@@ -420,17 +420,31 @@ if ($dev == '') {
           'expire' => $hour
           );
     $this->input->set_cookie($cookie);
+
+    if ($this->input->post('recon') != '') {
+      $cond = "";
+      foreach ($this->input->post('recon') as $value) {
+        $cond .=  "," . $value;
+      }
+      $cond = substr($cond, 1);
+      $cookie = array(
+          'name'   => 'recondition',
+          'value'  => $cond,
+          'expire' => $hour
+          );
+      $this->input->set_cookie($cookie);
+    }
     redirect(base_url('report'));
   }
   $show = $this->crud->search('unit_detail', array('cn_unit' => $device));
   $show = $show->result_array();
-  $mojo     = empty($show[0]['sn_mojo']) ? null : $show[0]['sn_mojo'];
-  $wb       = empty($show[0]['sn_wb']) ? null : $show[0]['sn_wb'];
-  $gps      = empty($show[0]['sn_gps']) ? null : $show[0]['sn_gps'];
-  $antenna  = empty($show[0]['antenna']) ? null : $show[0]['antenna'];
-  $remark   = empty($show[0]['remark']) ? null : $show[0]['remark'];
-  $relay    = empty($show[0]['relay']) ? null : $show[0]['relay'];
-  $locked   = empty($show[0]['locked']) ? null : $show[0]['locked'];
+  $mojo     = empty($show[0]['sn_mojo'])  ? null : $show[0]['sn_mojo'];
+  $wb       = empty($show[0]['sn_wb'])    ? null : $show[0]['sn_wb'];
+  $gps      = empty($show[0]['sn_gps'])   ? null : $show[0]['sn_gps'];
+  $antenna  = empty($show[0]['antenna'])  ? null : $show[0]['antenna'];
+  $remark   = empty($show[0]['remark'])   ? null : $show[0]['remark'];
+  $relay    = empty($show[0]['relay'])    ? null : $show[0]['relay'];
+  $locked   = empty($show[0]['locked'])   ? null : $show[0]['locked'];
 
 ?>
   <form method="post">
@@ -464,6 +478,22 @@ if ($dev == '') {
         }
         ?>
       </select>
+    </div>
+
+    <div class="form-group">
+      <label>Recondition</label>
+      <div style="margin-left:  20px;">
+      <?php
+        $search = $this->crud->search('enum', array('IdDevice' => $dev, 'type' => 'rekondisi'));
+        $data = $search->result_array();
+        foreach ($data as $value) {
+          echo '<div class="form-check">
+            <input class="form-check-input" type="checkbox" value="' . $value['IdEnum'] . '" name="recon[]" style="margin-top:  -0.7rem;">
+            <label class="form-check-label" style="padding-left:  10px;">' . $value['name'] . '</label>
+          </div>';
+        }
+      ?>
+      </div>
     </div>
 
     <div class="form-group">
@@ -504,7 +534,7 @@ if ($dev == '') {
     </div>
     <?php } ?>
     <div class="form-group">
-      <label>Remark Backlog</label>
+      <label>Remark/Backlog</label>
       <textarea rows="6" class="form-control" placeholder="Type remark backlog"  name="remark" required><?php echo $remark;?></textarea>
     </div>
     <div class="form-group">
@@ -558,6 +588,8 @@ if ($dev == '') {
       ));
 
       $this->crud->update('unit_detail', array(
+        'cn_unit' => $device
+      ), array(
         'sn_mojo' => $sn_mojo,
         'sn_wb' => $sn_wb,
         'sn_gps' => $sn_gps,
@@ -568,9 +600,23 @@ if ($dev == '') {
         'date_update' => date('Y-m-d'),
         'time_update' => date('H:i:s'),
         'pic_update' => $pic
-      ), array(
-        'cn_unit' => $device
       ));
+
+      if ($recondition != '') {
+        $this->crud->insert('recondition', array(
+          'id_unit' => $device,
+          'value' => $recondition,
+          'date' => date('Y-m-d'),
+          'time' => date('H:i:s'),
+          'pic' => $pic
+        ));
+
+        $this->crud->update('unit_detail', array(
+          'cn_unit' => $device
+        ), array(
+          'recondition' => $recondition
+        ));
+      }
     } else {
       $this->crud->insert('reportingjob', array(
         'id_device' => $dev,
@@ -591,11 +637,11 @@ if ($dev == '') {
       ));
 
       $this->crud->update('unit_detail', array(
+        'cn_unit' => $device
+      ), array(
         'date_update' => date('Y-m-d'),
         'time_update' => date('H:i:s'),
         'pic_update' => $pic
-      ), array(
-        'cn_unit' => $device
       ));
     }
 

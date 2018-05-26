@@ -97,5 +97,71 @@ class Json extends CI_Controller {
 		}
 		echo json_encode($response);
 	}
+
+
+	public function ureport()
+	{
+		$column = $this->input->post('column');
+		$value = $this->input->post('value');
+		$id = $this->input->post('id');
+		$this->Crud->update('reportingjob', array('IDReport' => $id),array($column => $value));
+	}
+
+	public function delrep()
+	{
+		$id = $this->input->post('del');
+		$this->Crud->delete('reportingjob', array('IDReport' => $id));
+		$this->session->set_flashdata('msg', 'Field has been delete!');
+	}
 	
+	public function deluser()
+	{
+		$id = $this->input->post('del');
+		$this->Crud->delete('user_report', array('IDUser' => $id));
+		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Deleted!</strong> Field has been delete!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+	}
+
+	public function edit_user($id ='', $action ='') {
+		$sql = $this->Crud->search('user_report', array('IDUser' => $id))->result_array();
+		if(count($sql) > 0 ){
+		  $response = array();
+		  $response["data"] = array();
+		  foreach ($sql as $x) {
+		    $h['id'] = $x["IDUser"];
+		    $h['name'] = $x["username"];
+		    $h['description'] = $x["description"];
+		    $h['type'] = $x["type"];
+		    array_push($response["data"], $h);
+		  }
+		}else {
+		  $response["data"]="empty";  
+		}
+		echo json_encode($response);
+	}
+	public function update_user()
+	{
+		$id = $this->input->post('id');
+		$name = $this->input->post('name');
+		$description = $this->input->post('description');
+		$level = $this->input->post('level');
+		$this->Crud->update('user_report', array('IDUser' => $id),array(
+			'username' => $name,
+			'description' => $description,
+			'type' => $level
+		));
+		$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Updated!</strong> Field has been updated!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+	}
+
+	public function reset()
+	{
+		$id = $this->input->post('id');
+		$sql = $this->Crud->search('user_report', array('IDUser' => $id))->result_array();
+		if(count($sql) > 0 ){
+			$pass = $sql[0]['username'];
+			$this->Crud->update('user_report', array('IDUser' => $id),array(
+			'password' => PASSWORD_HASH($pass, PASSWORD_DEFAULT)
+			));
+		}
+		$this->session->set_flashdata('msg', '<div class="alert alert-info alert-dismissible fade show" role="alert"><strong>Success!</strong> Password <b>' . $sql[0]['username'] . '</b> has reset default (username)!<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+	}
 }

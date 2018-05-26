@@ -628,7 +628,7 @@ var myChart = new Chart(ctx, {
                           echo '<td>' . $data['start_action'] . '</td>';
                           echo '<td>' . $data['end_action'] . '</td>';
                           echo '<td>' . $data['pic'] . '</td>';
-                          echo '<td><a href="' . base_url('?report&' . strtolower($data['name_device']) . '&' . date('Y', strtotime($data['date'])) . '&' . date('m', strtotime($data['date'])) ) . '" class="btn btn-outline-success btn-sm">View Report</a></td>';
+                          echo '<td><a href="' . base_url('dash/report/' . strtolower($data['name_device']) . '/' . date('Y', strtotime($data['date'])) . '/' . date('m', strtotime($data['date'])) ) . '" class="btn btn-outline-success btn-sm">View Report</a></td>';
                         echo '</tr>';
                       }?>
                     </tbody>
@@ -667,7 +667,7 @@ var myChart = new Chart(ctx, {
                           echo '<td>' . $data['start_action'] . '</td>';
                           echo '<td>' . $data['end_action'] . '</td>';
                           echo '<td>' . $data['pic'] . '</td>';
-                          echo '<td><a href="' . base_url('?report&' . strtolower($data['name_device']) . '&' . date('Y', strtotime($data['date'])) . '&' . date('m', strtotime($data['date'])) ) . '" class="btn btn-outline-success btn-sm">View Report</a></td>';
+                          echo '<td><a href="' . base_url('dash/report/' . strtolower($data['name_device']) . '/' . date('Y', strtotime($data['date'])) . '/' . date('m', strtotime($data['date'])) ) . '" class="btn btn-outline-success btn-sm">View Report</a></td>';
                         echo '</tr>';
                       }?>
                     </tbody>

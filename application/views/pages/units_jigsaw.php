@@ -39,7 +39,7 @@
 															<th>SN Wifibox</th>
 															<th>SN GPS</th>
 															<th>Antenna</th>
-															<th>Remark</th>
+															<th>Remark/Backlog</th>
 															<th>Relay</th>
 															<th>Locked All</th>
 															<th>Status</th>
@@ -58,7 +58,7 @@
 															<th>SN Wifibox</th>
 															<th>SN GPS</th>
 															<th>Antenna</th>
-															<th>Remark</th>
+															<th>Remark/Backlog</th>
 															<th>Relay</th>
 															<th>Locked All</th>
 															<th>Status</th>
@@ -378,8 +378,8 @@
           $(editableObj).removeAttr('style');
           $(editableObj).attr('data-old_value',editableObj.innerText);
         },
-        error: function () {
-          console.log("errr");
+        error: function (response) {
+          console.log(response);
         }
       });
     }
@@ -395,8 +395,8 @@
 	        		$(editableObj).attr('data-old_value', editableObj.innerText);
 	        		location.reload();
 	        	},
-	        	error: function () {
-	        		console.log("errr");
+	        	error: function (response) {
+	        		console.log(response);
 	        	}
 	    });
 
@@ -414,7 +414,6 @@
 					data: data,
 					url: "<?php echo base_url('dash/save_unit');?>",
 					success: function(response) {
-						alert(response);
 						swal({
 							title: "Good job!",
 							text: "You field is saved!",
@@ -425,8 +424,8 @@
 							location.reload();
 						});
 					},
-					error: function () {
-						console.log("errr");
+					error: function (response) {
+						console.log(response);
 					}
 				});
 			}
@@ -441,7 +440,7 @@
             location.reload();
           },
           error: function () {
-            console.log("errr");
+            console.log(response);
           }
       })
     });
